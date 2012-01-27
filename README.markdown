@@ -4,7 +4,7 @@
 
 This is a Ruby Api client/wrapper/connector intended to be used with [Majestic SEO's awesome API](http://developer-support.majesticseo.com/).
 
-Majestic SEO currently offers a client/connector over at [Connector Downloads](http://developer-support.majesticseo.com/connectors/downloads/) but since this connector wasn't suitable for me because:
+Majestic SEO currently offers a client/connector over at [Connector Downloads](http://developer-support.majesticseo.com/connectors/downloads/) but this connector wasn't suitable for me because:
 
 * It wasn't gemified (thus requiring a bunch of hacking to incorporate it into every respective Rails-app)
 * Didn't have a config file with environment specific client settings (api key, api environment). I need to be able to use different api environments depending on the app environment
