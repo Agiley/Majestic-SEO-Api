@@ -8,7 +8,7 @@ Majestic SEO currently offers a client/connector over at [Connector Downloads](h
 
 * It wasn't gemified (thus requiring a bunch of hacking to incorporate it into every respective Rails-app)
 * Didn't have a config file with environment specific client settings (api key, api environment). I need to be able to use different api environments depending on the app environment
-* **Didn't work with JRuby** - this gem does.
+* **Didn't work with JRuby** - this gem does (or well - on 1.6.6-head and 1.7-head).
 * Lacked test/spec coverage. The current test coverage isn't the best, but it's still better than nothing.
 
 It is based on the Majestic SEO connector but has pretty much been rewritten from scratch.
@@ -16,17 +16,18 @@ The original script/test-files included now reside in script/. All of them haven
 
 ## Installation ##
 Add to your Gemfile:
-```ruby
+```
 gem 'majestic_seo_api', :git => 'git://github.com/Agiley/Majestic-SEO-Api.git'
 ```
 
 Generate config file:
-```ruby
+```
 rails generate majestic_seo
 ```
 
 ## Tested on ##
 The specs pass on:
+
 * Ruby 1.9.2
 * Ruby 1.9.3
 * JRuby 1.6.6-head
