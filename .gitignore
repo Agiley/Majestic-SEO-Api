@@ -1,0 +1,11 @@
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
+.rvmrc
+.DS_STORE
+*.sqlite3
+spec/database.yml
+spec/debug.log
+lib/generators/templates/majestic_seo.yml
+

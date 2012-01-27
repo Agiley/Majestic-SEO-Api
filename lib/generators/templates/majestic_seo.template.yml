@@ -1,0 +1,13 @@
+---
+development:
+  environment: sandbox
+  api_key: "api_key"
+
+test:
+  environment: sandbox
+  api_key: "api_key"
+
+production:
+  environment: sandbox
+  api_key: "api_key"
+
