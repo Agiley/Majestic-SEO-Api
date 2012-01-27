@@ -36,6 +36,10 @@ The specs pass on:
 *JRuby 1.6.5/1.6.5.1 does not work :(*
 
 ## License ##
+Original Majestic SEO License:
+
+---------
+
 Version 0.9.3
 
 Copyright (c) 2011, Majestic-12 Ltd
