@@ -16,9 +16,13 @@ It is based on the Majestic SEO connector but has pretty much been rewritten fro
 The original script/test-files included now reside in script/. All of them haven't been completely upgraded yet, but they will.
 
 ## Installation ##
-Add to your Gemfile:
 ```
-gem 'majestic_seo_api', :git => 'git://github.com/Agiley/Majestic-SEO-Api.git'
+gem install majestic_seo_api
+```
+
+Using Gemfile:
+```
+gem "majestic_seo_api", "~> 1.1.0"
 ```
 
 Generate config file:
