@@ -33,6 +33,7 @@
 require 'uri'
 require 'cgi'
 require 'rubygems'
+require 'faraday_middleware'
 
 module MajesticSeo
   module Api
