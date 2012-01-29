@@ -17,8 +17,12 @@ The original script/test-files included now reside in script/. All of them haven
 In order to run the script files (without errors), you need to run them in Bundler's context:
 ```
 bundle exec ruby script/get_index_item_info.rb
-bundle exec ruby script/get_top_backlinks.rb
+```
+```
 bundle exec ruby script/open_app_get_index_item_info.rb
+```
+```
+bundle exec ruby script/get_top_backlinks.rb
 ```
 
 ## Installation ##
