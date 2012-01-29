@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Majestic-12 Ltd", "Sebastian Johnsson"]
-  s.date = "2012-01-27"
+  s.date = "2012-01-29"
   s.description = "Interface for communicating with Majestic SEO's API"
   s.email = "sebastian@agiley.se"
   s.extra_rdoc_files = [
@@ -19,12 +19,14 @@ Gem::Specification.new do |s|
   s.files = [
     "Gemfile",
     "LICENSE.txt",
+    "README.markdown",
     "Rakefile",
     "VERSION",
     "lib/generators/majestic_seo/majestic_seo_generator.rb",
     "lib/generators/templates/majestic_seo.template.yml",
     "lib/majestic_seo/api/client.rb",
     "lib/majestic_seo/api/data_table.rb",
+    "lib/majestic_seo/api/item_info.rb",
     "lib/majestic_seo/api/item_info_response.rb",
     "lib/majestic_seo/api/logger.rb",
     "lib/majestic_seo/api/response.rb",
@@ -32,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/majestic_seo/extensions/string.rb",
     "lib/majestic_seo/railtie.rb",
     "lib/majestic_seo_api.rb",
+    "majestic_seo_api.gemspec",
     "script/get_index_item_info.rb",
     "script/get_top_backlinks.rb",
     "script/open_app_get_index_item_info.rb",
@@ -52,6 +55,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<http_utilities>, [">= 0"])
       s.add_runtime_dependency(%q<jruby-openssl>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
@@ -59,6 +63,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<http_utilities>, [">= 0"])
       s.add_dependency(%q<jruby-openssl>, [">= 0"])
+      s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
@@ -67,6 +72,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<http_utilities>, [">= 0"])
     s.add_dependency(%q<jruby-openssl>, [">= 0"])
+    s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
