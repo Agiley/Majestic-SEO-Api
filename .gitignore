@@ -7,5 +7,6 @@ pkg/*
 *.sqlite3
 spec/database.yml
 spec/debug.log
+*.gem
 lib/generators/templates/majestic_seo.yml
 
