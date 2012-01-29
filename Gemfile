@@ -2,10 +2,7 @@ source "http://rubygems.org"
 
 gem 'nokogiri'
 gem 'http_utilities', :git => 'https://github.com/Agiley/Http-Utilities.git'
-
-platforms :jruby do
-  gem 'jruby-openssl'
-end
+gem 'jruby-openssl' if defined?(JRUBY_VERSION)
 
 group :development, :test do
   gem 'bundler'
