@@ -21,11 +21,13 @@ gem install majestic_seo_api
 ```
 
 Using Gemfile:
+
 ```
 gem "majestic_seo_api", "~> 1.1.0"
 ```
 
 Generate config file:
+
 ```
 rails generate majestic_seo
 ```
