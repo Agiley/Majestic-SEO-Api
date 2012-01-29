@@ -1,6 +1,6 @@
 # Majestic SEO Ruby API Client #
 
-**This is currently under heavy development (first released 2012-01-27). Get back to me if you find bugs.**
+**This is currently under heavy development (first released 2012-01-27). Get back to me if you run into any bugs.**
 
 This is a Ruby Api client/wrapper/connector intended to be used with [Majestic SEO's awesome API](http://developer-support.majesticseo.com/).
 
