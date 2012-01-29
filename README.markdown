@@ -41,8 +41,6 @@ Original Majestic SEO License:
 
 ---------
 
-Version 0.9.3
-
 Copyright (c) 2011, Majestic-12 Ltd
 
 All rights reserved.
