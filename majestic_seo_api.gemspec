@@ -54,7 +54,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<faraday>, ["~> 0.7.6"])
-      s.add_runtime_dependency(%q<faraday_middleware>, [">= 0"])
+      s.add_runtime_dependency(%q<agiley-faraday_middleware>, ["~> 0.8.3"])
       s.add_runtime_dependency(%q<jruby-openssl>, ["~> 0.7"])
       s.add_development_dependency(%q<bundler>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
@@ -63,7 +63,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<faraday>, ["~> 0.7.6"])
-      s.add_dependency(%q<faraday_middleware>, [">= 0"])
+      s.add_dependency(%q<agiley-faraday_middleware>, ["~> 0.8.3"])
       s.add_dependency(%q<jruby-openssl>, ["~> 0.7"])
       s.add_dependency(%q<bundler>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
@@ -73,7 +73,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<faraday>, ["~> 0.7.6"])
-    s.add_dependency(%q<faraday_middleware>, [">= 0"])
+    s.add_dependency(%q<agiley-faraday_middleware>, ["~> 0.8.3"])
     s.add_dependency(%q<jruby-openssl>, ["~> 0.7"])
     s.add_dependency(%q<bundler>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])

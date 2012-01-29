@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem 'nokogiri'
 gem "faraday", "~> 0.7.6"
-gem 'faraday_middleware', :git => 'git://github.com/Agiley/faraday_middleware.git'
+gem "agiley-faraday_middleware", "~> 0.8.3"
 gem 'jruby-openssl', '~> 0.7', :platforms => :jruby
 
 group :development, :test do
