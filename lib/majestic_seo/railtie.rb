@@ -1,5 +1,6 @@
-require 'majestic_seo'
+require 'majestic_seo_api'
 require 'rails'
+
 module MajesticSeo
   class Railtie < Rails::Railtie
     
