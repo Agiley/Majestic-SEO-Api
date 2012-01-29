@@ -1,7 +1,9 @@
 source "http://rubygems.org"
 
 gem 'nokogiri'
-gem 'http_utilities', :git => 'https://github.com/Agiley/Http-Utilities.git'
+gem "faraday", "~> 0.7.6"
+gem 'faraday_middleware', :git => 'git://github.com/Agiley/faraday_middleware.git'
+gem 'jruby-openssl', '~> 0.7', :platforms => :jruby
 
 group :development, :test do
   gem 'bundler'

@@ -19,8 +19,8 @@ describe MajesticSeo::Api::ItemInfoResponse  do
     before(:each) do
       #We need to keep the XML on one line - JRuby goes bonanza otherwise
       @xml        =   '<?xml version="1.0" encoding="utf-8"?><Result Code="OK" ErrorMessage="" FullError=""><GlobalVars FirstBackLinkDate="2006-06-06" IndexBuildDate="04/01/2012 09:14:02" IndexType="0" MostRecentBackLinkDate="2011-12-18" RecentBackLinksFromDate="2011-09-19" ServerBuild="2011-11-07 13:20:36" ServerName="PWRGURU" ServerVersion="1.0.4328.24018"/><DataTables Count="1"><DataTable Name="Results" RowsCount="2" Headers="ItemNum|Item|ResultCode|Status|ExtBackLinks|RefDomains|AnalysisResUnitsCost|ACRank|ItemType|IndexedURLs|GetTopBackLinksAnalysisResUnitsCost|RefIPs|RefSubNets|RefDomainsEDU|ExtBackLinksEDU|RefDomainsGOV|ExtBackLinksGOV|RefDomainsEDU_Exact|ExtBackLinksEDU_Exact|RefDomainsGOV_Exact|ExtBackLinksGOV_Exact|CrawledFlag|LastCrawlDate|LastCrawlResult|RedirectFlag|FinalRedirectResult|OutDomainsExternal|OutLinksExternal|OutLinksInternal|LastSeen|Title|RedirectTo"><Row>0|google.com|OK|Found|33536625553|15560001|33536625553|-1|1|5087871285|5000|2135470|363423|31636|147893369|22859|39850401|5833|43625720|6237|6983793|False| | |False| |0|0|0| | |http://www.google.nl</Row><Row>1|yahoo.com|OK|Found|16814018765|8374570|16814018765|-1|1|3845667299|5000|1345597|266044|17992|24506182|10441|12766565|4284|5810404|1217|1338346|False| | |False| |0|0|0| | |http://pl.yahoo.com/?p=us</Row></DataTable></DataTables></Result>'
-      @response   =   HttpUtilities::Http::Response.new(@xml, nil, {:format => :xml})
-      @response   =   MajesticSeo::Api::ItemInfoResponse.new(@response)
+      @parsed     =   ::Nokogiri::XML(@xml, nil, "utf-8")
+      @response   =   MajesticSeo::Api::ItemInfoResponse.new(@parsed)
       @table      =   @response.tables["Results"]
     end
 
@@ -88,8 +88,8 @@ describe MajesticSeo::Api::ItemInfoResponse  do
     before(:each) do
       #We need to keep the XML on one line - JRuby goes bonanza otherwise
       @xml        =   '<?xml version="1.0" encoding="utf-8"?><Result Code="OK" ErrorMessage="" FullError=""><GlobalVars FirstBackLinkDate="2006-06-06" IndexBuildDate="04/01/2012 09:14:02" IndexType="0" MostRecentBackLinkDate="2011-12-18" RecentBackLinksFromDate="2011-09-19" ServerBuild="2011-11-07 13:20:36" ServerName="PWRGURU" ServerVersion="1.0.4328.24018"/><DataTables Count="1"><DataTable Name="Results" RowsCount="1" Headers="ItemNum|Item|ResultCode|Status|ExtBackLinks|RefDomains|AnalysisResUnitsCost|ACRank|ItemType|IndexedURLs|GetTopBackLinksAnalysisResUnitsCost|RefIPs|RefSubNets|RefDomainsEDU|ExtBackLinksEDU|RefDomainsGOV|ExtBackLinksGOV|RefDomainsEDU_Exact|ExtBackLinksEDU_Exact|RefDomainsGOV_Exact|ExtBackLinksGOV_Exact|CrawledFlag|LastCrawlDate|LastCrawlResult|RedirectFlag|FinalRedirectResult|OutDomainsExternal|OutLinksExternal|OutLinksInternal|LastSeen|Title|RedirectTo"><Row>0|aftonbladet.se|OK|Found|54063780|128804|54063780|-1|1|5658886|5000|43589|23882|279|2396|35|179|120|496|4|13|False| | |False| |0|0|0| | Aftonbladet: Sveriges nyhetskälla och mötesplats |http://www.aftonbladet.se</Row></DataTable></DataTables></Result>'
-      @response   =   HttpUtilities::Http::Response.new(@xml, nil, {:format => :xml})
-      @response   =   MajesticSeo::Api::ItemInfoResponse.new(@response)
+      @parsed     =   ::Nokogiri::XML(@xml, nil, "utf-8")
+      @response   =   MajesticSeo::Api::ItemInfoResponse.new(@parsed)
       @table      =   @response.tables["Results"]
     end
 

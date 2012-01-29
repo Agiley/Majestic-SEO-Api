@@ -1,4 +1,12 @@
 begin
+  require 'bundler'
+  Bundler::GemHelper.install_tasks
+
+rescue LoadError
+  puts "Bundler not available. Install it with: gem install bundler"  
+end
+
+begin
   # Rspec 2.0
   require 'rspec/core/rake_task'
 
@@ -32,8 +40,5 @@ begin
   
   Jeweler::GemcutterTasks.new
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
+  puts "Jeweler not available. Install it with: gem install jeweler"
 end
-
-#require 'bundler'
-#Bundler::GemHelper.install_tasks

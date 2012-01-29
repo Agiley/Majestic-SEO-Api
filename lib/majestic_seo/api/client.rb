@@ -38,16 +38,18 @@ module MajesticSeo
   module Api
 
     class Client
-      attr_accessor :http_client, :config, :api_key, :environment
+      attr_accessor :connection, :api_url, :config, :api_key, :environment
       include MajesticSeo::Api::Logger
 
     	def initialize(api_key = nil, environment = nil)
-    		@http_client        =   ::HttpUtilities::Http::Client.new
     		set_config
 
     		@api_key            =   api_key       ||  self.config.fetch("api_key", nil)
     		@environment        =   environment   ||  self.config.fetch("environment", :sandbox)
     		@environment        =   @environment.to_sym
+    		
+    		set_api_url
+    		set_connection
     	end
 
     	def set_config
@@ -56,6 +58,24 @@ module MajesticSeo
         self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.yml"))[rails_env] rescue nil
         self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.template.yml"))[rails_env] rescue nil
         self.config ||= {}
+    	end
+    	
+    	def set_api_url
+        @api_url = case @environment.to_sym
+          when :sandbox     then "http://developer.majesticseo.com/api_command"
+          when :production  then "http://enterprise.majesticseo.com/api_command"
+          else
+            "http://developer.majesticseo.com/api_command"
+        end
+      end
+    	
+    	def set_connection
+    	  @connection = Faraday.new(:url => @api_url) do |builder|
+          builder.request  :url_encoded
+          #builder.response :logger
+          builder.use FaradayMiddleware::ParseNokogiriXml
+          builder.adapter  :net_http
+        end
     	end
 
     	def get_index_item_info(urls, parameters = {})
@@ -93,15 +113,6 @@ module MajesticSeo
         return response
     	end
 
-    	def api_url
-        return case @environment.to_sym
-          when :sandbox     then "http://developer.majesticseo.com/api_command"
-          when :production  then "http://enterprise.majesticseo.com/api_command"
-          else
-            "http://developer.majesticseo.com/api_command"
-        end
-      end
-
     	# This method will execute the specified command as an api request.
     	# 'name' is the name of the command you wish to execute, e.g. GetIndexItemInfo
     	# 'parameters' a hash containing the command parameters.
@@ -123,24 +134,11 @@ module MajesticSeo
 
     	# 'parameters' a hash containing the command parameters.
     	# 'timeout' specifies the amount of time to wait before aborting the transaction. This defaults to 5 seconds.
-    	def execute_request(query_parameters, timeout = 5)
-    		query, response = "", nil
-
-    		query_parameters.each do |key, value|
-    		  encoded_value = CGI.escape(value.to_s).gsub("+", "%20").gsub("%7E", "~")
-    		  query << "#{key}=#{encoded_value}&"
-    		end
-
-    		query   =   query.chop
-    		url     =   "#{api_url}?#{query}"
-    		options =   {:timeout => timeout, :format => :xml}
-
-    		begin
-    		  response = self.http_client.retrieve_content_from_url(url, options)
-
-    		rescue Exception => e
-    		  log(:error, "[MajesticSeo::Api::Client] - Error occurred while trying to execute request. Error Class: #{e.class.name}. Error Message: #{e.message}. Stacktrace: #{e.backtrace.join("\n")}")
-    		end
+    	def execute_request(parameters, timeout = 5)
+        response = @connection.get do |request|
+          request.params  = parameters
+          request.options = {:timeout => timeout}
+        end
 
     		return response
     	end

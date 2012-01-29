@@ -49,7 +49,11 @@ module MajesticSeo
       end
 
       def parse_response
-        @response = (@response && @response.parsed_body && @response.parsed_body.root) ? @response.parsed_body.root : nil
+        if (@response.is_a?(Nokogiri::XML::Document))
+          @response = (@response && @response.root) ? @response.root : nil
+        elsif (@response.is_a?(Faraday::Response))
+          @response = (@response && @response.body && @response.body.root) ? @response.body.root : nil
+        end
 
         if (@response)
           @response.attributes.each do |key, attribute|
