@@ -11,6 +11,7 @@ module MajesticSeoApi
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/item_info_response')
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/top_back_links_response')
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/data_table')
+  require File.join(File.dirname(__FILE__), 'majestic_seo/api/item_info')
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/client')
 end
 

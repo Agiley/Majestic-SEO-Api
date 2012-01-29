@@ -32,6 +32,7 @@
 
 require 'uri'
 require 'cgi'
+require 'rubygems'
 
 module MajesticSeo
   module Api
@@ -41,7 +42,7 @@ module MajesticSeo
       include MajesticSeo::Api::Logger
 
     	def initialize(api_key = nil, environment = nil)
-    		@http_client  =   HttpUtilities::Http::Client.new
+    		@http_client        =   ::HttpUtilities::Http::Client.new
     		set_config
 
     		@api_key            =   api_key       ||  self.config.fetch("api_key", nil)
@@ -132,7 +133,7 @@ module MajesticSeo
 
     		query   =   query.chop
     		url     =   "#{api_url}?#{query}"
-    		options =   {:timeout => timeout}
+    		options =   {:timeout => timeout, :format => :xml}
 
     		begin
     		  response = self.http_client.retrieve_content_from_url(url, options)

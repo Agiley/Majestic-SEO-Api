@@ -35,7 +35,7 @@ module MajesticSeo
     class Response
       attr_accessor :response, :tables, :table_key
       attr_accessor :code, :error_message, :full_error
-      attr_accessor :global_variables, :success
+      attr_accessor :global_variables, :success, :items
 
       # This method returns a new instance of the Response class.
       # If one of the parameters are not provided, it will default to nil.
@@ -82,7 +82,11 @@ module MajesticSeo
       end
 
       def items
-        return (@tables && @tables.has_key?(@table_key)) ? @tables[@table_key].rows : nil
+        if (@items.nil? || @items.empty?)
+          @items = (self.tables && self.tables.has_key?(self.table_key)) ? self.tables[self.table_key].rows : nil
+        end
+        
+        return @items
       end
 
       def parse_tables

@@ -36,7 +36,8 @@
 #       regarding other API commands and their arguments.
 
 
-# add the majesticseo-external-rpc library to the search path
+# add the majestic seo api library to the search path
+Bundler.require if defined?(Bundler)
 require File.expand_path('../../lib/majestic_seo_api', __FILE__)
 
 environment = :production
@@ -74,7 +75,7 @@ puts "\nPlease enter the list of items you wish to query seperated by " +
      "commas: \n(e.g. majesticseo.com, majestic12.co.uk)\n"
 
 items_to_query = gets.chomp
-items = items_to_query.split(/, /)
+items = items_to_query.split(/,\s?/)
 
 client = MajesticSeo::Api::Client.new(api_key, environment)
 response = client.get_index_item_info(items, {:data_source => :fresh, :timeout => 5})
@@ -83,8 +84,12 @@ if (response && response.success)
   response.items.each_with_index do |item, index|
     puts "\n Result: #{index+1}: \n"
     
-    item.each do |key, value|
-      puts " #{key} ... #{value}\n";
+    instance_variables = item.instance_variables
+    instance_variables.delete(:@response)
+    instance_variables.delete(:@mappings)
+    
+    instance_variables.each do |var|
+      puts " #{var.to_s.gsub("@", "")} ... #{item.instance_variable_get(var)}"
     end
     
     puts "\n"

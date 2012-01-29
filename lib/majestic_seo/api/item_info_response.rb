@@ -32,13 +32,27 @@
 
 module MajesticSeo
   module Api
-    
     class ItemInfoResponse < Response
+      
       def initialize(response, table_key = "Results")
-        @table_key = table_key
+        self.table_key = table_key
         super(response)
+        parse_item_info_objects
       end
+      
+      def parse_item_info_objects
+        parsed      = []
+        item_infos  = self.items
+        
+        if (item_infos && item_infos.any?)
+          item_infos.each do |item_info|
+            parsed << MajesticSeo::Api::ItemInfo.new(item_info)
+          end 
+
+          @items = parsed if (parsed.any?)
+        end
+      end
+      
     end
-    
   end
 end

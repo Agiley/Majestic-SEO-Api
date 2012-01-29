@@ -50,21 +50,25 @@ describe MajesticSeo::Api::ItemInfoResponse  do
     end
 
     it "should have results for google.com" do
-      google_row = @table.rows[0]
-      google_row["Item"].should == "google.com"
-
-      google_row["ResultCode"].should == "OK"
-      google_row["Status"].should == "Found"
-      google_row["ExtBackLinks"].to_i.should == 33536625553
+      google_row = @response.items[0]
+      
+      google_row.url.should                 ==  "google.com"
+      google_row.type.should                ==  :root_domain
+      google_row.result_code.should         ==  "OK"
+      google_row.success.should             ==  true
+      google_row.status.should              ==  "Found"
+      google_row.external_backlinks.should  ==  33536625553
     end
 
     it "should have results for yahoo.com" do
-      yahoo_row = @table.rows[1]
-      yahoo_row["Item"].should == "yahoo.com"
-
-      yahoo_row["ResultCode"].should == "OK"
-      yahoo_row["Status"].should == "Found"
-      yahoo_row["IndexedURLs"].to_i.should == 3845667299
+      yahoo_row = @response.items[1]
+      
+      yahoo_row.url.should            ==  "yahoo.com"
+      yahoo_row.type.should           ==  :root_domain
+      yahoo_row.result_code.should    ==  "OK"
+      yahoo_row.success.should        ==  true
+      yahoo_row.status.should         ==  "Found"
+      yahoo_row.indexed_urls.should   ==  3845667299
     end
 
   end
@@ -115,14 +119,16 @@ describe MajesticSeo::Api::ItemInfoResponse  do
     end
 
     it "should have results for aftonbladet.se" do
-      google_row = @table.rows[0]
-      google_row["Item"].should == "aftonbladet.se"
-      google_row["Title"].should == "Aftonbladet: Sveriges nyhetskälla och mötesplats"
-
-      google_row["ResultCode"].should == "OK"
-      google_row["Status"].should == "Found"
-      google_row["ExtBackLinks"].to_i.should == 54063780
-      google_row["RefDomains"].to_i.should == 128804
+      row = @response.items[0]
+      
+      row.url.should                  ==  "aftonbladet.se"
+      row.title.should                ==  "Aftonbladet: Sveriges nyhetskälla och mötesplats"
+      row.type.should                 ==  :root_domain
+      row.result_code.should          ==  "OK"
+      row.success.should              ==  true
+      row.status.should               ==  "Found"
+      row.external_backlinks.should   ==  54063780
+      row.referring_domains.should    ==  128804
     end
 
   end

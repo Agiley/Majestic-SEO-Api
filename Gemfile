@@ -8,8 +8,8 @@ platforms :jruby do
 end
 
 group :development, :test do
+  gem 'bundler'
   gem 'jeweler'
   gem 'rspec'
   gem "mocha"
 end
-
