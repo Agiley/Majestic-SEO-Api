@@ -39,7 +39,7 @@ module MajesticSeo
       attr_accessor :get_top_backlinks_analysis_results_unit_cost, :referring_ip_addresses, :referring_subnets
       attr_accessor :referring_edu_domains, :external_edu_backlinks, :referring_gov_domains, :external_gov_backlinks
       attr_accessor :exact_referring_edu_domains, :exact_external_edu_backlinks, :exact_referring_gov_domains, :exact_external_gov_backlinks
-      attr_accessor :crawled, :last_crawl_data, :last_crawl_result, :redirecting, :final_redirect_result
+      attr_accessor :crawled, :last_crawl_date, :last_crawl_result, :redirecting, :final_redirect_result
       attr_accessor :outbound_domain_links, :outbound_external_backliks, :outbound_internal_backlinks
       attr_accessor :title, :redirecting_to
 
