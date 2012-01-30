@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "majestic_seo_api"
-  s.version = "1.1.0"
+  s.version = "1.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Majestic-12 Ltd", "Sebastian Johnsson"]
-  s.date = "2012-01-29"
+  s.date = "2012-01-30"
   s.description = "Interface for communicating with Majestic SEO's API"
   s.email = "sebastian@agiley.se"
   s.extra_rdoc_files = [
