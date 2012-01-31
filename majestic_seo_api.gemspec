@@ -12,6 +12,10 @@ Gem::Specification.new do |s|
   s.description   =   "Interface for communicating with Majestic SEO's API"
   s.summary       =   "Interface for communicating with Majestic SEO's API"
 
+  s.add_dependency 'nokogiri'
+  s.add_dependency 'faraday'
+  s.add_dependency 'agiley-faraday_middleware'
+
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'mocha'
