@@ -39,7 +39,7 @@ module MajesticSeo
       attr_accessor :get_top_backlinks_analysis_results_unit_cost, :referring_ip_addresses, :referring_subnets
       attr_accessor :referring_edu_domains, :external_edu_backlinks, :referring_gov_domains, :external_gov_backlinks
       attr_accessor :exact_referring_edu_domains, :exact_external_edu_backlinks, :exact_referring_gov_domains, :exact_external_gov_backlinks
-      attr_accessor :crawled, :last_crawl_date, :last_crawl_result, :redirecting, :final_redirect_result
+      attr_accessor :crawled, :last_crawl_date, :last_crawl_result, :redirecting, :final_redirect_result, :last_seen
       attr_accessor :outbound_domain_links, :outbound_external_backliks, :outbound_internal_backlinks
       attr_accessor :title, :redirecting_to
 
@@ -75,6 +75,7 @@ module MajesticSeo
           "LastCrawlResult"                       =>    {:last_crawl_result                             =>    :string},
           "RedirectFlag"                          =>    {:redirecting                                   =>    :boolean},
           "FinalRedirectResult"                   =>    {:final_redirect_result                         =>    :string},
+          "LastSeen"                              =>    {:last_seen                                     =>    :string},
           "OutDomainsExternal"                    =>    {:outbound_domain_links                         =>    :integer},
           "OutLinksExternal"                      =>    {:outbound_external_backliks                    =>    :integer},
           "OutLinksInternal"                      =>    {:outbound_internal_backlinks                   =>    :integer},
@@ -99,7 +100,7 @@ module MajesticSeo
             end
             
             self.send("#{column}=", converted_value)
-          end if (value)
+          end if (mapping && !mapping.empty? && value)
         end
         
         set_result_status
