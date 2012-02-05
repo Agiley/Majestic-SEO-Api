@@ -1,12 +1,35 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+
+## RUBYMINE
+.idea
+
+## PROJECT::GENERAL
+coverage
+rdoc
+pkg/*
+
+## BUNDLER
 *.gem
 .bundle
+doc
+log
 Gemfile.lock
-pkg/*
 .rvmrc
-.DS_STORE
-*.sqlite3
-spec/database.yml
-spec/debug.log
-*.gem
-lib/generators/templates/majestic_seo.yml
+.rbenv*
+
+## PROJECT::SPECIFIC
+.rbx
 
