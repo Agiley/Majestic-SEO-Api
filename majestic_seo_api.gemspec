@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.5") if s.respond_to? :required_rubygems_version=
 
   s.name = 'majestic_seo_api'
-  s.version = '1.1.2.1'
+  s.version = '1.1.3'
 
   s.homepage      =   "http://developer-support.majesticseo.com/connectors/"
   s.email         =   "sebastian@agiley.se"
@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
  LICENSE.txt
  README.markdown
  Rakefile
- VERSION
  lib/generators/majestic_seo/majestic_seo_generator.rb
  lib/generators/templates/majestic_seo.template.yml
  lib/majestic_seo/api/client.rb
