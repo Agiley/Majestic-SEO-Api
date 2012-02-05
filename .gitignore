@@ -33,3 +33,5 @@ Gemfile.lock
 ## PROJECT::SPECIFIC
 .rbx
 
+## PROJECT::SPECIFIC
+lib/generators/templates/majestic_seo.yml
