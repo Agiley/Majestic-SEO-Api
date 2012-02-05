@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.homepage      =   "http://developer-support.majesticseo.com/connectors/"
   s.email         =   "sebastian@agiley.se"
   s.authors       =   ["Majestic-12 Ltd", "Sebastian Johnsson"]
-  s.date          =   "2012-01-30"
   s.description   =   "Interface for communicating with Majestic SEO's API"
   s.summary       =   "Interface for communicating with Majestic SEO's API"
 
