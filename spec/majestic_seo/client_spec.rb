@@ -24,18 +24,23 @@ describe "Majestic Seo Api Client"  do
       it "should send a correct request" do
         client = MajesticSeo::Api::Client.new
 
-        urls      =   ["google.com", "yahoo.com"]
-        options   =   {:timeout => 5}
+        urls        =   ["google.com", "yahoo.com"]
+        parameters  =   {:data_source => :historic}
+        options     =   {:timeout     => 5}
 
-        expecting = {"datasource"     =>    "historic",
-                     "items"          =>    2,
-                     "item0"          =>    "google.com",
-                     "item1"          =>    "yahoo.com",
-                     "app_api_key"    =>    client.api_key,
-                     "cmd"            =>    "GetIndexItemInfo"}
+        expecting   =   {"datasource"     =>    :historic,
+                         "items"          =>    2,
+                         "item0"          =>    "google.com",
+                         "item1"          =>    "yahoo.com",
+                         "app_api_key"    =>    client.api_key,
+                         "cmd"            =>    "GetIndexItemInfo"
+                        }
 
-        client.expects(:execute_request).with(expecting, options[:timeout])
-        response = client.get_index_item_info(urls, options)
+        client.expects(:execute_request).with(expecting, options)
+        response = client.get_index_item_info(urls, parameters, options)
+
+        #To test behind a proxy:
+        #response = client.get_index_item_info(urls, parameters, options.merge(:proxy => {:uri => URI('http://proxy.com:1234')}))
       end
     end
 
@@ -43,23 +48,24 @@ describe "Majestic Seo Api Client"  do
       it "should send a correct request" do
         client = MajesticSeo::Api::Client.new
 
-        url       =   "google.com"
-        options   =   {:timeout => 5}
+        url           =   "google.com"
+        parameters    =   {:data_source => :historic}
+        options       =   {:timeout     => 5}
 
-        expecting = {"datasource"                 =>    "historic",
-                     "URL"                        =>    "google.com",
-                     "MaxSourceURLs"              =>    100,
-                     "ShowDomainInfo"             =>    0,
-                     "GetUrlData"                 =>    1,
-                     "GetSubDomainData"           =>    0,
-                     "GetRootDomainData"          =>    0,
-                     "MaxSourceURLsPerRefDomain"  =>    -1,
-                     "DebugForceQueue"            =>    0,
-                     "app_api_key"                =>    client.api_key,
-                     "cmd"                        =>    "GetTopBackLinks"}
+        expecting     = {"datasource"                 =>    :historic,
+                         "URL"                        =>    "google.com",
+                         "MaxSourceURLs"              =>    100,
+                         "ShowDomainInfo"             =>    0,
+                         "GetUrlData"                 =>    1,
+                         "GetSubDomainData"           =>    0,
+                         "GetRootDomainData"          =>    0,
+                         "MaxSourceURLsPerRefDomain"  =>    -1,
+                         "DebugForceQueue"            =>    0,
+                         "app_api_key"                =>    client.api_key,
+                         "cmd"                        =>    "GetTopBackLinks"}
 
-        client.expects(:execute_request).with(expecting, options[:timeout])
-        response = client.get_top_back_links(url, options)
+        client.expects(:execute_request).with(expecting, options)
+        response = client.get_top_back_links(url, parameters, options)
       end
     end
 

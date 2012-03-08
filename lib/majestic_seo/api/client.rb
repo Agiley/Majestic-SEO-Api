@@ -39,28 +39,29 @@ module MajesticSeo
   module Api
 
     class Client
-      attr_accessor :connection, :api_url, :config, :api_key, :environment
+      attr_accessor :connection, :api_url, :config, :api_key, :environment, :verbose
       include MajesticSeo::Api::Logger
 
-    	def initialize(api_key = nil, environment = nil)
+    	def initialize(options = {})
     		set_config
 
-    		@api_key            =   api_key       ||  self.config.fetch("api_key", nil)
-    		@environment        =   environment   ||  self.config.fetch("environment", :sandbox)
-    		@environment        =   @environment.to_sym
-    		
+    		@api_key            =   options.fetch(:api_key,     self.config.fetch("api_key", nil))
+    		@environment        =   options.fetch(:environment, self.config.fetch("environment", :sandbox)).to_sym
+    		@verbose            =   options.fetch(:verbose,     false)
+
     		set_api_url
     		set_connection
     	end
 
     	def set_config
-    	  rails_env     =   defined?(Rails) ? Rails.env : "development"
-    	  self.config   = YAML.load_file(File.join(Rails.root, "config/majestic_seo.yml"))[rails_env] rescue nil
-        self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.yml"))[rails_env] rescue nil
-        self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.template.yml"))[rails_env] rescue nil
+    	  env           = (defined?(Rails) && Rails.respond_to?(:env)) ? Rails.env : (ENV["RACK_ENV"] || 'development')
+
+    	  self.config   = YAML.load_file(File.join(Rails.root, "config/majestic_seo.yml"))[env] rescue nil
+        self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.yml"))[env] rescue nil
+        self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.template.yml"))[env] rescue nil
         self.config ||= {}
     	end
-    	
+
     	def set_api_url
         @api_url = case @environment.to_sym
           when :sandbox     then "http://developer.majesticseo.com/api_command"
@@ -69,17 +70,18 @@ module MajesticSeo
             "http://developer.majesticseo.com/api_command"
         end
       end
-    	
+
     	def set_connection
-    	  @connection = Faraday.new(:url => @api_url) do |builder|
-          builder.request  :url_encoded
-          #builder.response :logger
-          builder.use FaradayMiddleware::ParseNokogiriXml
-          builder.adapter  :net_http
+    	  @connection = Faraday.new(:url => @api_url, :ssl => {:verify => false}) do |builder|
+          builder.request   :url_encoded
+          builder.request   :retry
+          builder.response  :logger if (@verbose)
+          builder.use       FaradayMiddleware::ParseNokogiriXml
+          builder.adapter   :net_http
         end
     	end
 
-    	def get_index_item_info(urls, parameters = {})
+    	def get_index_item_info(urls, parameters = {}, options = {})
     	  request_parameters                    =   {}
     	  request_parameters['datasource']      =   parameters.fetch(:data_source, "historic")
         request_parameters["items"]           =   urls.size
@@ -88,14 +90,13 @@ module MajesticSeo
           request_parameters["item#{index}"]  =   url
         end
 
-        timeout     =   parameters.fetch(:timeout, 5)
-        response    =   self.execute_command("GetIndexItemInfo", request_parameters, timeout)
+        response    =   self.execute_command("GetIndexItemInfo", request_parameters, options)
         response    =   MajesticSeo::Api::ItemInfoResponse.new(response)
 
         return response
     	end
 
-    	def get_top_back_links(url, parameters = {})
+    	def get_top_back_links(url, parameters = {}, options = {})
         request_parameters                                  =     {}
         request_parameters['datasource']                    =     parameters.fetch(:data_source, "historic")
         request_parameters['URL']                           =     url
@@ -107,8 +108,7 @@ module MajesticSeo
         request_parameters["MaxSourceURLsPerRefDomain"]     =     parameters.fetch(:max_source_urls_per_ref_domain, -1)
         request_parameters["DebugForceQueue"]               =     parameters.fetch(:debug_force_queue, 0)
 
-        timeout     =   parameters.fetch(:timeout, 5)
-        response    =   self.execute_command("GetTopBackLinks", request_parameters, timeout)
+        response    =   self.execute_command("GetTopBackLinks", request_parameters, options)
         response    =   MajesticSeo::Api::TopBackLinksResponse.new(response)
 
         return response
@@ -118,9 +118,9 @@ module MajesticSeo
     	# 'name' is the name of the command you wish to execute, e.g. GetIndexItemInfo
     	# 'parameters' a hash containing the command parameters.
     	# 'timeout' specifies the amount of time to wait before aborting the transaction. This defaults to 5 seconds.
-    	def execute_command(name, parameters, timeout = 5)
-    		query_parameters = parameters.merge({"app_api_key" => @api_key, "cmd" => name})
-    		self.execute_request(query_parameters, timeout)
+    	def execute_command(name, parameters = {}, options = {})
+    		request_parameters = parameters.merge({"app_api_key" => @api_key, "cmd" => name})
+    		self.execute_request(request_parameters, options)
     	end
 
     	# This will execute the specified command as an OpenApp request.
@@ -128,17 +128,25 @@ module MajesticSeo
     	# 'parameters' a hash containing the command parameters.
     	# 'access_token' the token provided by the user to access their resources.
     	# 'timeout' specifies the amount of time to wait before aborting the transaction. This defaults to 5 seconds.
-    	def execute_open_app_request(command_name, parameters, access_token, timeout = 5)
-    		query_parameters = parameters.merge({"accesstoken" => access_token, "cmd" => command_name, "privatekey" => @api_key})
-    		self.execute_request(query_parameters, timeout)
+    	def execute_open_app_request(command_name, access_token, parameters = {}, options = {})
+    		request_parameters = parameters.merge({"accesstoken" => access_token, "cmd" => command_name, "privatekey" => @api_key})
+    		self.execute_request(request_parameters, options)
     	end
 
     	# 'parameters' a hash containing the command parameters.
-    	# 'timeout' specifies the amount of time to wait before aborting the transaction. This defaults to 5 seconds.
-    	def execute_request(parameters, timeout = 5)
-        response = @connection.get do |request|
-          request.params  = parameters
-          request.options = {:timeout => timeout}
+    	# 'options'  a hash containing command/call options (timeout, proxy settings etc)
+    	def execute_request(parameters = {}, options = {})
+        response = nil
+
+        begin
+          log(:info, "[MajesticSeo::Api::Client] - Sending API Request to Namecheap. Parameters: #{parameters.inspect}. Options: #{options.inspect}")
+          response = @connection.get do |request|
+            request.params    =   parameters  if (!parameters.empty?)
+            request.options   =   options     if (!options.empty?)
+          end
+        rescue StandardError => e
+          log(:error, "[MajesticSeo::Api::Client] - Error occurred while trying to perform API-call with parameters: #{parameters.inspect}. Error Class: #{e.class.name}. Error Message: #{e.message}. Stacktrace: #{e.backtrace.join("\n")}")
+          response    =   nil
         end
 
     		return response

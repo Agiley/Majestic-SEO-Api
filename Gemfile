@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
-gem 'nokogiri'
-gem "faraday", "~> 0.7.6"
-gem "agiley-faraday_middleware", "~> 0.8.3"
+gem "faraday", "~> 0.8.0.rc2"
+gem "agiley-faraday_middleware", "~> 0.8.3.2"
+gem 'nokogiri', "~> 1.5.0"
 
 group :development, :test do
   gem 'rspec'
