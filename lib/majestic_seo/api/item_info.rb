@@ -36,7 +36,8 @@ module MajesticSeo
       attr_accessor :response, :mappings
       attr_accessor :index, :type, :url, :result_code, :success, :error_message, :status
       attr_accessor :external_backlinks, :referring_domains, :indexed_urls, :analysis_results_unit_cost, :ac_rank
-      attr_accessor :get_top_backlinks_analysis_results_unit_cost, :referring_ip_addresses, :referring_subnets
+      attr_accessor :get_top_backlinks_analysis_results_unit_cost, :download_backlinks_analysis_results_unit_cost
+      attr_accessor :referring_ip_addresses, :referring_subnets
       attr_accessor :referring_edu_domains, :external_edu_backlinks, :referring_gov_domains, :external_gov_backlinks
       attr_accessor :exact_referring_edu_domains, :exact_external_edu_backlinks, :exact_referring_gov_domains, :exact_external_gov_backlinks
       attr_accessor :crawled, :last_crawl_date, :last_crawl_result, :redirecting, :final_redirect_result, :last_seen
