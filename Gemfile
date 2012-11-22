@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
-gem "faraday", "~> 0.8.0.rc2"
-gem "agiley-faraday_middleware", "~> 0.8.3.2"
-gem 'nokogiri', "~> 1.5.0"
+gem "faraday", ">= 0.8.4"
+gem "agiley-faraday_middleware", ">= 0.9.0"
+gem 'nokogiri', ">= 1.5.5"
 
 group :development, :test do
   gem 'rspec'
@@ -10,7 +10,7 @@ group :development, :test do
 end
 
 platforms :jruby do
-  gem 'jruby-openssl', '~> 0.7'
+  gem "jruby-openssl", ">= 0.7.7"
 end
 
 gemspec
