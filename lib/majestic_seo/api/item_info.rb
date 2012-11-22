@@ -42,45 +42,50 @@ module MajesticSeo
       attr_accessor :crawled, :last_crawl_date, :last_crawl_result, :redirecting, :final_redirect_result, :last_seen
       attr_accessor :outbound_domain_links, :outbound_external_backliks, :outbound_internal_backlinks
       attr_accessor :title, :redirecting_to
+      attr_accessor :citation_flow, :trust_flow, :trust_metric
 
       # This method returns a new instance of the Response class.
       # If one of the parameters are not provided, it will default to nil.
       def initialize(response = nil)
-        self.response           =   response
+        self.response       =   response
         
-        self.mappings = {
-          "ItemNum"                               =>    {:index                                         =>    :integer},
-          "ItemType"                              =>    {:type                                          =>    :integer},
-          "Item"                                  =>    {:url                                           =>    :string},
-          "ResultCode"                            =>    {:result_code                                   =>    :string},
-          "Status"                                =>    {:status                                        =>    :string},
-          "ExtBackLinks"                          =>    {:external_backlinks                            =>    :integer},
-          "RefDomains"                            =>    {:referring_domains                             =>    :integer},
-          "IndexedURLs"                           =>    {:indexed_urls                                  =>    :integer},
-          "AnalysisResUnitsCost"                  =>    {:analysis_results_unit_cost                    =>    :integer},
-          "ACRank"                                =>    {:ac_rank                                       =>    :integer},
-          "GetTopBackLinksAnalysisResUnitsCost"   =>    {:get_top_backlinks_analysis_results_unit_cost  =>    :integer},
-          "RefIPs"                                =>    {:referring_ip_addresses                        =>    :integer},
-          "RefSubNets"                            =>    {:referring_subnets                             =>    :integer},
-          "RefDomainsEDU"                         =>    {:referring_edu_domains                         =>    :integer},
-          "ExtBackLinksEDU"                       =>    {:external_edu_backlinks                        =>    :integer},
-          "RefDomainsGOV"                         =>    {:referring_gov_domains                         =>    :integer},
-          "ExtBackLinksGOV"                       =>    {:external_gov_backlinks                        =>    :integer},
-          "RefDomainsEDU_Exact"                   =>    {:exact_referring_edu_domains                   =>    :integer},
-          "ExtBackLinksEDU_Exact"                 =>    {:exact_external_edu_backlinks                  =>    :integer},
-          "RefDomainsGOV_Exact"                   =>    {:exact_referring_gov_domains                   =>    :integer},
-          "ExtBackLinksGOV_Exact"                 =>    {:exact_external_gov_backlinks                  =>    :integer},
-          "CrawledFlag"                           =>    {:crawled                                       =>    :boolean},
-          "LastCrawlDate"                         =>    {:last_crawl_date                               =>    :date},
-          "LastCrawlResult"                       =>    {:last_crawl_result                             =>    :string},
-          "RedirectFlag"                          =>    {:redirecting                                   =>    :boolean},
-          "FinalRedirectResult"                   =>    {:final_redirect_result                         =>    :string},
-          "LastSeen"                              =>    {:last_seen                                     =>    :string},
-          "OutDomainsExternal"                    =>    {:outbound_domain_links                         =>    :integer},
-          "OutLinksExternal"                      =>    {:outbound_external_backliks                    =>    :integer},
-          "OutLinksInternal"                      =>    {:outbound_internal_backlinks                   =>    :integer},
-          "Title"                                 =>    {:title                                         =>    :string},
-          "RedirectTo"                            =>    {:redirecting_to                                =>    :string},
+        self.mappings       =   {
+          "ItemNum"                               =>    {:index                                           =>    :integer},
+          "ItemType"                              =>    {:type                                            =>    :integer},
+          "Item"                                  =>    {:url                                             =>    :string},
+          "ResultCode"                            =>    {:result_code                                     =>    :string},
+          "Status"                                =>    {:status                                          =>    :string},
+          "ExtBackLinks"                          =>    {:external_backlinks                              =>    :integer},
+          "RefDomains"                            =>    {:referring_domains                               =>    :integer},
+          "IndexedURLs"                           =>    {:indexed_urls                                    =>    :integer},
+          "AnalysisResUnitsCost"                  =>    {:analysis_results_unit_cost                      =>    :integer},
+          "ACRank"                                =>    {:ac_rank                                         =>    :integer},
+          "GetTopBackLinksAnalysisResUnitsCost"   =>    {:get_top_backlinks_analysis_results_unit_cost    =>    :integer},
+          "DownloadBacklinksAnalysisResUnitsCost" =>    {:download_backlinks_analysis_results_unit_cost   =>    :integer},
+          "RefIPs"                                =>    {:referring_ip_addresses                          =>    :integer},
+          "RefSubNets"                            =>    {:referring_subnets                               =>    :integer},
+          "RefDomainsEDU"                         =>    {:referring_edu_domains                           =>    :integer},
+          "ExtBackLinksEDU"                       =>    {:external_edu_backlinks                          =>    :integer},
+          "RefDomainsGOV"                         =>    {:referring_gov_domains                           =>    :integer},
+          "ExtBackLinksGOV"                       =>    {:external_gov_backlinks                          =>    :integer},
+          "RefDomainsEDU_Exact"                   =>    {:exact_referring_edu_domains                     =>    :integer},
+          "ExtBackLinksEDU_Exact"                 =>    {:exact_external_edu_backlinks                    =>    :integer},
+          "RefDomainsGOV_Exact"                   =>    {:exact_referring_gov_domains                     =>    :integer},
+          "ExtBackLinksGOV_Exact"                 =>    {:exact_external_gov_backlinks                    =>    :integer},
+          "CrawledFlag"                           =>    {:crawled                                         =>    :boolean},
+          "LastCrawlDate"                         =>    {:last_crawl_date                                 =>    :date},
+          "LastCrawlResult"                       =>    {:last_crawl_result                               =>    :string},
+          "RedirectFlag"                          =>    {:redirecting                                     =>    :boolean},
+          "FinalRedirectResult"                   =>    {:final_redirect_result                           =>    :string},
+          "LastSeen"                              =>    {:last_seen                                       =>    :string},
+          "OutDomainsExternal"                    =>    {:outbound_domain_links                           =>    :integer},
+          "OutLinksExternal"                      =>    {:outbound_external_backliks                      =>    :integer},
+          "OutLinksInternal"                      =>    {:outbound_internal_backlinks                     =>    :integer},
+          "Title"                                 =>    {:title                                           =>    :string},
+          "RedirectTo"                            =>    {:redirecting_to                                  =>    :string},
+          "CitationFlow"                          =>    {:citation_flow                                   =>    :integer},
+          "TrustFlow"                             =>    {:trust_flow                                      =>    :integer},
+          "TrustMetric"                           =>    {:trust_metric                                    =>    :integer}
         }
         
         parse_item_info
