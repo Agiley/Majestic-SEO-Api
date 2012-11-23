@@ -185,7 +185,7 @@ describe MajesticSeo::Api::ItemInfoResponse  do
       @table.should_not be_nil
     end
 
-    it "should have a data table with the name 'Results' containing 2 rows" do
+    it "should have a data table with the name 'Results' containing 1 row" do
       @table.row_count.should == 1
     end
 
@@ -200,6 +200,64 @@ describe MajesticSeo::Api::ItemInfoResponse  do
       row.status.should               ==  "Found"
       row.external_backlinks.should   ==  54063780
       row.referring_domains.should    ==  128804
+    end
+  end
+  
+  #Example XML:
+  #<Result Code="OK" ErrorMessage="" FullError="">
+  #		<GlobalVars FirstBackLinkDate="2007-03-14" IndexBuildDate="2012-11-05 04:42:33" IndexType="0" MostRecentBackLinkDate="2012-10-14" ServerBuild="2012-11-07 12:42:57" ServerName="PWRGURU" ServerVersion="1.0.4694.22888" UniqueIndexID="20121105044233-HISTORICAL"/>
+  #	<DataTables Count="1">
+  #		<DataTable Name="Results" RowsCount="1" Headers="ItemNum|Item|ResultCode|Status|ExtBackLinks|RefDomains|AnalysisResUnitsCost|ACRank|ItemType|IndexedURLs|GetTopBackLinksAnalysisResUnitsCost|DownloadBacklinksAnalysisResUnitsCost|RefIPs|RefSubNets|RefDomainsEDU|ExtBackLinksEDU|RefDomainsGOV|ExtBackLinksGOV|RefDomainsEDU_Exact|ExtBackLinksEDU_Exact|RefDomainsGOV_Exact|ExtBackLinksGOV_Exact|CrawledFlag|LastCrawlDate|LastCrawlResult|RedirectFlag|FinalRedirectResult|OutDomainsExternal|OutLinksExternal|OutLinksInternal|LastSeen|Title|RedirectTo|CitationFlow|TrustFlow|TrustMetric">
+  #			<Row>0|theconnection.se|OK|Found|117646|8599|117646|-1|1|8592|5000|126238|7119|4659|60|1072|6|38|3|57|0|0|False| | |False| |0|0|0| |&#13;
+  #		Nätverk och större möjligheter till frihet. || The Connection.													| |16|4|4</Row>
+  #		</DataTable>
+  #	</DataTables>
+  #</Result>
+  describe "response with the title column containing the separator (|) inside" do
+    before(:each) do
+      #We need to keep the XML on one line - JRuby goes bonanza otherwise
+      @xml        =   '<Result Code="OK" ErrorMessage="" FullError=""><GlobalVars FirstBackLinkDate="2007-03-14" IndexBuildDate="2012-11-05 04:42:33" IndexType="0" MostRecentBackLinkDate="2012-10-14" ServerBuild="2012-11-07 12:42:57" ServerName="PWRGURU" ServerVersion="1.0.4694.22888" UniqueIndexID="20121105044233-HISTORICAL"/><DataTables Count="1"><DataTable Name="Results" RowsCount="1" Headers="ItemNum|Item|ResultCode|Status|ExtBackLinks|RefDomains|AnalysisResUnitsCost|ACRank|ItemType|IndexedURLs|GetTopBackLinksAnalysisResUnitsCost|DownloadBacklinksAnalysisResUnitsCost|RefIPs|RefSubNets|RefDomainsEDU|ExtBackLinksEDU|RefDomainsGOV|ExtBackLinksGOV|RefDomainsEDU_Exact|ExtBackLinksEDU_Exact|RefDomainsGOV_Exact|ExtBackLinksGOV_Exact|CrawledFlag|LastCrawlDate|LastCrawlResult|RedirectFlag|FinalRedirectResult|OutDomainsExternal|OutLinksExternal|OutLinksInternal|LastSeen|Title|RedirectTo|CitationFlow|TrustFlow|TrustMetric"><Row>0|theconnection.se|OK|Found|117646|8599|117646|-1|1|8592|5000|126238|7119|4659|60|1072|6|38|3|57|0|0|False| | |False| |0|0|0| |&#13;Nätverk och större möjligheter till frihet. || The Connection.													| |16|4|4</Row></DataTable></DataTables></Result>'
+      @parsed     =   ::Nokogiri::XML(@xml, nil, "utf-8")
+      @response   =   MajesticSeo::Api::ItemInfoResponse.new(@parsed)
+      @table      =   @response.tables["Results"]
+    end
+
+    it "should be a valid response" do
+      @response.success.should == true
+    end
+
+    it "should not have an error message" do
+      @response.error_message.should == ""
+    end
+
+    it "should have global variables set" do
+      @response.global_variables["most_recent_back_link_date"].should == "2012-10-14"
+      @response.global_variables["index_type"].should == "0"
+    end
+
+    it "should have one returned data table" do
+      @response.tables.size.should == 1
+    end
+
+    it "should have a data table with the name 'Results'" do
+      @table.should_not be_nil
+    end
+
+    it "should have a data table with the name 'Results' containing 1 row" do
+      @table.row_count.should == 1
+    end
+
+    it "should have results for theconnection.se" do
+      row                             =   @response.items[0]
+      
+      row.url.should                  ==  "theconnection.se"
+      row.type.should                 ==  :root_domain
+      row.result_code.should          ==  "OK"
+      row.success.should              ==  true
+      row.status.should               ==  "Found"
+      row.citation_flow.should        ==  16
+      row.trust_flow.should           ==  4
+      row.trust_metric.should         ==  4
     end
   end
   

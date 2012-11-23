@@ -34,9 +34,9 @@ module MajesticSeo
   module Api
     class DataTable
       attr_accessor :node, :name, :row_count, :headers, :rows
-
+      
       def initialize(node)
-        @node       =   node
+        @node         =   node
 
         if (@node)
           @name       =   @node["Name"]       ||  nil
@@ -64,11 +64,18 @@ module MajesticSeo
         if (row && row.content)
           row           =   row.content
           row_hash      =   {}
-          splitted_row  =   split(row)
-
+          splitted_row  =   split(row, true)
+          
           @headers.each_with_index do |header, index|
             value               =   splitted_row[index].strip
             value               =   (value && value != "") ? value : nil
+            
+            #If the title element contains a |-sign (the separator) the title will be splitted into two rows, thus breaking the parsing of the remaining rows
+            if (header.eql?("Title") && splitted_row.size > @headers.size)
+              remaining_title   =   splitted_row.delete_at(index+1).strip
+              value            +=   remaining_title if value
+            end
+            
             row_hash[header]    =   value
           end
 
@@ -76,8 +83,9 @@ module MajesticSeo
         end
       end
 
-      def split(text)
-        splitted = text.split(/\|(?!\|)/)
+      def split(text, remove_excess_separators = false)
+        text        =   text.gsub(/\|{2,}/i, "|") if remove_excess_separators
+        splitted    =   text.split(/\|(?!\|)/)
       end
 
       def row_count
