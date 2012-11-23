@@ -62,25 +62,39 @@ module MajesticSeo
 
       def parse_row(row)
         if (row && row.content)
-          row           =   row.content
-          row_hash      =   {}
-          splitted_row  =   split(row, true)
+          row             =   row.content
+          row_hash        =   {}
+          splitted_row    =   split(row, true)
+          splitted_row    =   adjust_for_invalid_title(splitted_row)
           
           @headers.each_with_index do |header, index|
             value               =   splitted_row[index].strip
             value               =   (value && value != "") ? value : nil
-            
-            #If the title element contains a |-sign (the separator) the title will be splitted into two rows, thus breaking the parsing of the remaining rows
-            if (header.eql?("Title") && splitted_row.size > @headers.size)
-              remaining_title   =   splitted_row.delete_at(index+1).strip
-              value            +=   remaining_title if value
-            end
             
             row_hash[header]    =   value
           end
 
           @rows << row_hash if (row_hash && !row_hash.empty?)
         end
+      end
+      
+      def adjust_for_invalid_title(rows)
+        if (rows.size > @headers.size)
+          difference          =   rows.size - @headers.size
+          index               =   @headers.index("Title")
+          
+          title               =   rows[index]
+          remaining_title     =   ""
+          
+          1.upto(difference) do |diff_index|
+            remaining_title  +=   rows.delete_at(index+1)
+          end
+          
+          title              +=   remaining_title
+          rows[index]         =   title
+        end
+        
+        return rows
       end
 
       def split(text, remove_excess_separators = false)
