@@ -1,5 +1,5 @@
 module MajesticSeoApi
-  VERSION = "1.2.3"
+  VERSION = "1.2.4"
 
   require File.join(File.dirname(__FILE__), 'majestic_seo/railtie') if defined?(Rails)
 
