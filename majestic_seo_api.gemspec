@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.summary       =   "Interface for communicating with Majestic SEO's API"
 
   s.add_dependency "faraday", ">= 0.8.7"
-  s.add_dependency "agiley-faraday_middleware", ">= 0.9.1"
   s.add_dependency "nokogiri", ">= 1.5.9"
 
   s.add_development_dependency 'rake'

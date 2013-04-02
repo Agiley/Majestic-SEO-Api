@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem "faraday", ">= 0.8.7"
-gem "agiley-faraday_middleware", ">= 0.9.1"
+gem "faraday_middleware", :git => 'git://github.com/Agiley/faraday_middleware.git'
 gem 'nokogiri', ">= 1.5.9"
 
 group :development, :test do
