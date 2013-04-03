@@ -23,6 +23,7 @@ gem install majestic_seo_api
 Using Gemfile:
 
 ```
+gem "faraday_middleware", :git => 'git://github.com/Agiley/faraday_middleware.git'
 gem "majestic_seo_api"
 ```
 
