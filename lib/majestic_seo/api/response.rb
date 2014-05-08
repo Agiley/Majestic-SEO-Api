@@ -60,7 +60,7 @@ module MajesticSeo
             self.send("#{key.underscore}=", attribute.value)
           end
 
-          @success  =   @code.downcase.eql?("ok")
+          @success  =   (@code && @code.downcase.eql?("ok"))
 
           if (success?)
             parse_global_variables
