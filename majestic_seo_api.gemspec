@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
  lib/generators/templates/majestic_seo.template.yml
  lib/majestic_seo/api/client.rb
  lib/majestic_seo/api/data_table.rb
+ lib/majestic_seo/api/exceptions.rb
  lib/majestic_seo/api/item_info.rb
  lib/majestic_seo/api/item_info_response.rb
  lib/majestic_seo/api/logger.rb
