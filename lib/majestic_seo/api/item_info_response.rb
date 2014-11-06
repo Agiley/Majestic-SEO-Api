@@ -37,7 +37,15 @@ module MajesticSeo
       def initialize(response, table_key = "Results")
         self.table_key = table_key
         super(response)
+        raise_exceptions_if_necessary
         parse_item_info_objects
+      end
+      
+      def raise_exceptions_if_necessary
+        case self.code
+          when 'InsufficientIndexItemInfoUnits'
+            raise MajesticSeo::Api::InsufficientIndexItemInfoUnitsException.new(self.error_message)
+        end unless success?
       end
       
       def parse_item_info_objects

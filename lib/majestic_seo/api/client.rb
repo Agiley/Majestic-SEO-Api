@@ -139,7 +139,7 @@ module MajesticSeo
         response = nil
 
         begin
-          log(:info, "[MajesticSeo::Api::Client] - Sending API Request to Namecheap. Parameters: #{parameters.inspect}. Options: #{options.inspect}")
+          log(:info, "[MajesticSeo::Api::Client] - Sending API Request to Majestic SEO. Parameters: #{parameters.inspect}. Options: #{options.inspect}")
           response = @connection.get do |request|
             request.params    =   parameters  if (!parameters.empty?)
             request.options   =   options     if (!options.empty?)
@@ -156,4 +156,3 @@ module MajesticSeo
 
   end
 end
-

@@ -1,5 +1,5 @@
 module MajesticSeoApi
-  VERSION = "1.2.6"
+  VERSION = "1.2.7"
 
   require File.join(File.dirname(__FILE__), 'majestic_seo/railtie') if defined?(Rails)
 
@@ -8,6 +8,7 @@ module MajesticSeoApi
   end
 
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/logger')
+  require File.join(File.dirname(__FILE__), 'majestic_seo/api/exceptions')
 
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/response')
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/item_info_response')
@@ -16,4 +17,3 @@ module MajesticSeoApi
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/item_info')
   require File.join(File.dirname(__FILE__), 'majestic_seo/api/client')
 end
-
