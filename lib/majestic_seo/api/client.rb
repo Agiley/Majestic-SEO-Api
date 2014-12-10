@@ -76,7 +76,6 @@ module MajesticSeo
           builder.request   :url_encoded
           builder.request   :retry
           builder.response  :logger if (@verbose)
-          builder.response  :nokogiri_xml
           builder.adapter   :net_http
         end
     	end

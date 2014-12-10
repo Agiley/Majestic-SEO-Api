@@ -52,7 +52,7 @@ module MajesticSeo
         if (@response.is_a?(Nokogiri::XML::Document))
           @response = (@response && @response.root) ? @response.root : nil
         elsif (@response.is_a?(Faraday::Response))
-          @response = (@response && @response.body && @response.body.root) ? @response.body.root : nil
+          @response = (@response && @response.body) ? ::Nokogiri::XML(@response.body, nil, "utf-8").try(:root) : nil
         end
 
         if (@response)
