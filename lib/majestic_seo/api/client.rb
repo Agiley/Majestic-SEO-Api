@@ -61,18 +61,19 @@ module MajesticSeo
         self.config ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../generators/templates/majestic_seo.template.yml"))[env] rescue nil
         self.config ||= {}
     	end
-
-    	def set_api_url
-        @api_url = case @environment.to_sym
-          when :sandbox     then "http://developer.majesticseo.com/api_command"
-          when :production  then "http://enterprise.majesticseo.com/api_command"
+      
+      #TODO: Switch to the JSON API
+    	def set_api_url(format = :xml)
+        @api_url      =   case @environment.to_sym
+          when :sandbox     then "http://developer.majestic.com/api/#{format}"
+          when :production  then "http://api.majestic.com/api/#{format}"
           else
-            "http://developer.majesticseo.com/api_command"
+            "http://developer.majestic.com/api/#{format}"
         end
       end
 
     	def set_connection
-    	  @connection = Faraday.new(:url => @api_url, :ssl => {:verify => false}) do |builder|
+    	  @connection = Faraday.new(url: @api_url, ssl: {verify: false}) do |builder|
           builder.request   :url_encoded
           builder.request   :retry
           builder.response  :logger if (@verbose)
@@ -134,18 +135,30 @@ module MajesticSeo
 
     	# 'parameters' a hash containing the command parameters.
     	# 'options'  a hash containing command/call options (timeout, proxy settings etc)
-    	def execute_request(parameters = {}, options = {})
-        response = nil
-
+    	def execute_request(parameters = {}, options = {}, retries = 3)
+        response        =   nil
+        timeout         =   options.delete(:timeout)      { |opt| 60 }
+        open_timeout    =   options.delete(:open_timeout) { |opt| 60 }
+        
         begin
           log(:info, "[MajesticSeo::Api::Client] - Sending API Request to Majestic SEO. Parameters: #{parameters.inspect}. Options: #{options.inspect}")
-          response = @connection.get do |request|
-            request.params    =   parameters  if (!parameters.empty?)
-            request.options   =   options     if (!options.empty?)
+          
+          response      =   @connection.get do |request|
+            request.params                    =   parameters  if (!parameters.empty?)
+            request.options                   =   options     if (!options.empty?)
+            request.options[:timeout]         =   timeout
+            request.options[:open_timeout]    =   open_timeout
           end
+        
         rescue StandardError => e
           log(:error, "[MajesticSeo::Api::Client] - Error occurred while trying to perform API-call with parameters: #{parameters.inspect}. Error Class: #{e.class.name}. Error Message: #{e.message}. Stacktrace: #{e.backtrace.join("\n")}")
-          response    =   nil
+          retries -= 1
+          
+          if retries > 0
+            retry
+          else
+            raise e
+          end
         end
 
     		return response
