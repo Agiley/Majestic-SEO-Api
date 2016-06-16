@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.5") if s.respond_to? :required_rubygems_version=
 
   s.name = 'majestic_seo_api'
-  s.version = '1.3.0'
+  s.version = '1.3.1'
 
   s.homepage      =   "http://developer-support.majesticseo.com/connectors/"
   s.email         =   "sebastian@agiley.se"
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary       =   "Interface for communicating with Majestic SEO's API"
 
   s.add_dependency "faraday",             ">= 0.9"
-  s.add_dependency "faraday_middleware",  ">= 0.9"
+  s.add_dependency "faraday_middleware",  ">= 0.10"
   s.add_dependency "nokogiri",            ">= 1.6"
 
   s.add_development_dependency 'rake'
