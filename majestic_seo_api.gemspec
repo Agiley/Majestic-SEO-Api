@@ -1,54 +1,40 @@
-Gem::Specification.new do |s|
-  s.specification_version     = 2 if s.respond_to? :specification_version=
-  s.required_rubygems_version = Gem::Requirement.new(">= 1.3.5") if s.respond_to? :required_rubygems_version=
 
-  s.name = 'majestic_seo_api'
-  s.version = '1.3.1'
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "majestic_seo/version"
 
-  s.homepage      =   "http://developer-support.majesticseo.com/connectors/"
-  s.email         =   "sebastian@agiley.se"
-  s.authors       =   ["Majestic-12 Ltd", "Sebastian Johnsson"]
-  s.description   =   "Interface for communicating with Majestic SEO's API"
-  s.summary       =   "Interface for communicating with Majestic SEO's API"
+Gem::Specification.new do |spec|
+  spec.name          = "majestic_seo_api"
+  spec.version       = MajesticSeoApi::VERSION
+  spec.authors       = ["Sebastian Johnsson"]
+  spec.email         = ["sebastian.johnsson@gmail.com"]
 
-  s.add_dependency "faraday",             ">= 0.9"
-  s.add_dependency "faraday_middleware",  ">= 0.10"
-  s.add_dependency "nokogiri",            ">= 1.6"
+  spec.summary       = %q{Majestic API Client}
+  spec.description   = %q{Interface for communicating with Majestic's metrics APIs}
+  spec.homepage      = "https://github.com/SebastianJ/Majestic-SEO-Api"
+  spec.license       = "MIT"
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'mocha'
+  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
+  # to allow pushing to a single host or delete this section to allow pushing to any host.
+  if spec.respond_to?(:metadata)
+    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  else
+    raise "RubyGems 2.0 or newer is required to protect against " \
+      "public gem pushes."
+  end
+  
+  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
+  spec.test_files    = spec.files.grep(%r{^spec/*/.+\.rb}) { |f| File.basename(f) }
 
-  # = MANIFEST =
- s.files = %w[
- Gemfile
- LICENSE.txt
- README.markdown
- Rakefile
- lib/generators/majestic_seo/majestic_seo_generator.rb
- lib/generators/templates/majestic_seo.template.yml
- lib/majestic_seo/api/client.rb
- lib/majestic_seo/api/data_table.rb
- lib/majestic_seo/api/exceptions.rb
- lib/majestic_seo/api/item_info.rb
- lib/majestic_seo/api/item_info_response.rb
- lib/majestic_seo/api/logger.rb
- lib/majestic_seo/api/response.rb
- lib/majestic_seo/api/top_back_links_response.rb
- lib/majestic_seo/extensions/string.rb
- lib/majestic_seo/railtie.rb
- lib/majestic_seo_api.rb
- majestic_seo_api.gemspec
- script/get_index_item_info.rb
- script/get_top_backlinks.rb
- script/open_app_get_index_item_info.rb
- spec/majestic_seo/client_spec.rb
- spec/majestic_seo/item_info_response_spec.rb
- spec/majestic_seo/top_back_links_response_spec.rb
- spec/spec_helper.rb
- ]
- # = MANIFEST =
+  spec.add_dependency "faraday",             "~> 0.13"
+  spec.add_dependency "faraday_middleware",  "~> 0.12"
 
-  s.test_files = s.files.select { |path| path =~ %r{^spec/*/.+\.rb} }
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'mocha'
 end
-

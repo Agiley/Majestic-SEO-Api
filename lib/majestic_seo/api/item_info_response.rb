@@ -1,42 +1,10 @@
-
-=begin
-
-  Version 0.9.3
-
-  Copyright (c) 2011, Majestic-12 Ltd
-  All rights reserved.
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-  1. Redistributions of source code must retain the above copyright
-  notice, this list of conditions and the following disclaimer.
-  2. Redistributions in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer in the
-  documentation and/or other materials provided with the distribution.
-  3. Neither the name of the Majestic-12 Ltd nor the
-  names of its contributors may be used to endorse or promote products
-  derived from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL Majestic-12 Ltd BE LIABLE FOR ANY
-  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-=end
-
 module MajesticSeo
   module Api
     class ItemInfoResponse < Response
       
-      def initialize(response, table_key = "Results")
-        self.table_key = table_key
+      def initialize(response)
         super(response)
+        
         raise_exceptions_if_necessary
         parse_item_info_objects
       end
@@ -49,16 +17,10 @@ module MajesticSeo
       end
       
       def parse_item_info_objects
-        parsed      = []
-        item_infos  = self.items
-        
-        if (item_infos && item_infos.any?)
-          item_infos.each do |item_info|
-            parsed << MajesticSeo::Api::ItemInfo.new(item_info)
-          end 
-
-          @items = parsed if (parsed.any?)
-        end
+        self.parsed_items.each do |parsed_item|
+          item_info   =   MajesticSeo::Api::ItemInfo.new(parsed_item)
+          self.items <<   item_info unless self.items.include?(item_info)
+        end if self.parsed_items && self.parsed_items.any?
       end
       
     end

@@ -24,3 +24,15 @@ require File.expand_path('../../lib/majestic_seo_api', __FILE__)
 RSpec.configure do |config|
   config.mock_with :mocha
 end
+
+cfg_path                =   File.join(File.dirname(__FILE__), "support/majestic_seo.yml")
+
+if File.exists?(cfg_path)
+  yaml                  =   YAML.load_file(cfg_path)["development"]
+
+  MajesticSeoApi.configure do |config|
+    config.environment  =   yaml.fetch("environment", :sandbox)
+    config.api_key      =   yaml.fetch("api_key", nil)
+    config.verbose      =   true
+  end
+end

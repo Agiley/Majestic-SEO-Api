@@ -1,8 +1,6 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-platforms :jruby do
-  gem "jruby-openssl", ">= 0.9"
-end
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
+# Specify your gem's dependencies in scrapely.gemspec
 gemspec
-

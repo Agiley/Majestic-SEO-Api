@@ -35,3 +35,4 @@ Gemfile.lock
 
 ## PROJECT::SPECIFIC
 lib/generators/templates/majestic_seo.yml
+spec/support/majestic_seo.yml

@@ -1,12 +1,11 @@
-## helper functions
+require "majestic_seo/version"
 
 def name
   @name ||= Dir['*.gemspec'].first.split('.').first
 end
 
 def version
-  line = File.read("lib/#{name}.rb")[/^\s*VERSION\s*=\s*.*/]
-  line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
+  MajesticSeoApi::VERSION
 end
 
 def gemspec_file

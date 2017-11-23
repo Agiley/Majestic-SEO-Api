@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "majestic_seo_api"
+require "yaml"
+
+# You can add fixtures and/or initialization code here to make experimenting
+# with your gem easier. You can also use a different console, if you like.
+
+# (If you use this, don't forget to add pry to your Gemfile!)
+# require "pry"
+# Pry.start
+
+cfg_path                =   File.join(File.dirname(__FILE__), "../spec/support/majestic_seo.yml")
+
+if File.exists?(cfg_path)
+  yaml                  =   YAML.load_file(cfg_path)["development"]
+
+  MajesticSeoApi.configure do |config|
+    config.environment  =   yaml.fetch("environment", :sandbox)
+    config.api_key      =   yaml.fetch("api_key", nil)
+    config.verbose      =   true
+  end
+end
+
+require "irb"
+IRB.start(__FILE__)

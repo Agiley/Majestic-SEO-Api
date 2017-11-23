@@ -1,19 +1,38 @@
+require 'faraday'
+require 'faraday_middleware'
+
 module MajesticSeoApi
-  VERSION = "1.3.1"
+  require 'majestic_seo/version'
+  
+  if !String.instance_methods(false).include?(:underscore)
+    require 'majestic_seo/extensions/string'
+  end
+  
+  require 'majestic_seo/configuration'
 
-  require File.join(File.dirname(__FILE__), 'majestic_seo/railtie') if defined?(Rails)
+  require 'majestic_seo/api/logger'
+  require 'majestic_seo/api/exceptions'
 
-  if (!String.instance_methods(false).include?(:underscore))
-    require File.join(File.dirname(__FILE__), 'majestic_seo/extensions/string')
+  require 'majestic_seo/api/response'
+  require 'majestic_seo/api/item_info_response'
+  require 'majestic_seo/api/item_info'
+  require 'majestic_seo/api/client'
+  
+  require 'majestic_seo/railtie' if defined?(Rails)
+  
+  class << self
+    attr_writer :configuration
   end
 
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/logger')
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/exceptions')
+  def self.configuration
+    @configuration ||= ::MajesticSeoApi::Configuration.new
+  end
 
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/response')
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/item_info_response')
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/top_back_links_response')
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/data_table')
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/item_info')
-  require File.join(File.dirname(__FILE__), 'majestic_seo/api/client')
+  def self.reset
+    @configuration = ::MajesticSeoApi::Configuration.new
+  end
+
+  def self.configure
+    yield(configuration)
+  end
 end
